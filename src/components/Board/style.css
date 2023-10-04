@@ -1,0 +1,32 @@
+.board {
+  display: grid;
+  grid-template-rows: repeat(10, 40px);
+  width: 400px;
+  border: 1px solid grey;
+}
+
+.board__row {
+  display: grid;
+  grid-template-columns: repeat(10, 40px);
+}
+
+.cell {
+  border: 1px solid grey;
+  cursor: pointer;
+}
+
+.cell:hover {
+  background-color: lightgrey;
+}
+
+.cell.ship {
+  background-color: #b3ccff;
+}
+
+.cell.hit {
+  background-color: #ff5050;
+}
+
+.cell.miss {
+  background-color: #99ff99;
+}
