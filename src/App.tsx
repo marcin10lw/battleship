@@ -30,8 +30,18 @@ function App() {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
   const [remainingShips, setRemainingShips] = useState<Ship[]>(ships);
 
+  const canStartGame = remainingShips.length === 0;
+
   const selectShip = (ship: Ship) => {
     setSelectedShip(ship);
+  };
+
+  const startGame = () => {
+    if (!canStartGame) {
+      return;
+    }
+
+    console.log('game started');
   };
 
   return (
@@ -48,6 +58,10 @@ function App() {
         setRemainingShips={setRemainingShips}
         setSelectedShip={setSelectedShip}
       />
+
+      <button onClick={startGame} disabled={!canStartGame}>
+        Start Game
+      </button>
     </div>
   );
 }
