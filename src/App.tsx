@@ -1,21 +1,53 @@
 import { useState } from 'react';
 import Board from './components/Board';
 import SelectShip from './components/SelectShip';
+import { Ship } from './types';
+
+const ships: Ship[] = [
+  {
+    name: 'destroyer',
+    length: 2,
+  },
+  {
+    name: 'submarine',
+    length: 3,
+  },
+  {
+    name: 'cruiser',
+    length: 3,
+  },
+  {
+    name: 'battleship',
+    length: 4,
+  },
+  {
+    name: 'carrier',
+    length: 5,
+  },
+];
 
 function App() {
-  const [selectedShipSize, setSelectedShipSize] = useState<number>(2);
+  const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
+  const [remainingShips, setRemainingShips] = useState<Ship[]>(ships);
 
-  console.log(selectedShipSize);
-
-  const selectShipSize = (size: number) => {
-    setSelectedShipSize(size);
+  const selectShip = (ship: Ship) => {
+    setSelectedShip(ship);
   };
 
   return (
     <div className="app">
       <h1>Battleship!</h1>
-      <SelectShip selectedSize={selectedShipSize} onSelect={selectShipSize} />
-      <Board shipSize={selectedShipSize} />
+      <SelectShip
+        remainingShips={remainingShips}
+        selectedShip={selectedShip}
+        selectShip={selectShip}
+      />
+      <Board
+        remainingShips={remainingShips}
+        selectedShip={selectedShip}
+        setRemainingShips={setRemainingShips}
+        setSelectedShip={setSelectedShip}
+      />
     </div>
   );
 }

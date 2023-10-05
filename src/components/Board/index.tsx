@@ -2,15 +2,25 @@ import { useState } from 'react';
 
 import './style.css';
 import Ship from '../Ship';
+import { Ship as ShipType } from '../../types';
 
 type BoardProps = {
-  shipSize: number;
+  selectedShip: ShipType | null;
+  remainingShips: ShipType[];
+  setRemainingShips: React.Dispatch<React.SetStateAction<ShipType[]>>;
+  setSelectedShip: React.Dispatch<React.SetStateAction<ShipType | null>>;
 };
 
-const Board = ({ shipSize }: BoardProps) => {
+const Board = ({
+  selectedShip,
+  remainingShips,
+  setRemainingShips,
+  setSelectedShip,
+}: BoardProps) => {
   const [grid, setGrid] = useState<string[][]>([]);
   const [playerShips, setPlayerShips] = useState<string[][]>([]);
   const [orientation, setOrientation] = useState<'vertical' | 'horizontal'>('horizontal');
+  const [validPlacement, setValidPlacement] = useState(true);
 
   const rows = 10;
   const columns = 10;
@@ -32,17 +42,50 @@ const Board = ({ shipSize }: BoardProps) => {
   }
 
   const handleClick = (row: number, col: number) => {
-    if (grid[row][col] === 'empty' && shipSize) {
+    if (grid[row][col] === 'empty' && selectedShip?.length && remainingShips.length > 0) {
       const newGrid = [...grid];
+      let isValid = true;
 
       if (orientation === 'horizontal') {
-        for (let i = col; i < col + shipSize; i++) {
-          newGrid[row][i] = 'ship';
+        if (col + selectedShip.length > columns) {
+          isValid = false;
+        } else {
+          for (let i = col; i < col + selectedShip.length; i++) {
+            if (newGrid[row][i] === 'ship') {
+              isValid = false;
+              break;
+            }
+          }
         }
       } else {
-        for (let i = row; i < row + shipSize; i++) {
-          newGrid[i][col] = 'ship';
+        if (row + selectedShip.length > rows) {
+          isValid = false;
+        } else {
+          for (let i = row; i < row + selectedShip.length; i++) {
+            if (newGrid[i][col] === 'ship') {
+              isValid = false;
+              break;
+            }
+          }
         }
+      }
+
+      if (isValid) {
+        if (orientation === 'horizontal') {
+          for (let i = col; i < col + selectedShip.length; i++) {
+            newGrid[row][i] = 'ship';
+          }
+        } else {
+          for (let i = row; i < row + selectedShip.length; i++) {
+            newGrid[i][col] = 'ship';
+          }
+        }
+
+        const newRemainingShip = remainingShips.filter((ship) => ship.name !== selectedShip.name);
+        setRemainingShips(newRemainingShip);
+        setSelectedShip(null);
+      } else {
+        setValidPlacement(false);
       }
 
       setGrid(newGrid);
