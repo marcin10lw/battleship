@@ -1,4 +1,10 @@
 .selectShip__list {
   list-style: none;
   padding: 0 20px;
+  display: flex;
+}
+
+.active {
+  opacity: 0.5;
+  background-color: lightgreen;
 }

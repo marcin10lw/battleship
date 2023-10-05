@@ -1,28 +1,24 @@
+import { Ship } from '../../types';
 import './style.css';
 
 type SelectShipProps = {
-  onSelect: (size: number) => void;
-  selectedSize: number;
+  remainingShips: Ship[];
+  selectedShip: Ship | null;
+  selectShip: (ship: Ship) => void;
 };
 
-const SelectShip = ({ onSelect, selectedSize }: SelectShipProps) => {
-  const shipSizes = [2, 3, 3, 4, 5];
-
+const SelectShip = ({ remainingShips, selectedShip, selectShip }: SelectShipProps) => {
   return (
     <div className="selectShip">
       <h2>Choose your ship</h2>
       <ul className="selectShip__list">
-        {shipSizes.map((size, index) => {
+        {remainingShips.map((ship) => {
+          const isActive = selectedShip === ship;
+
           return (
-            <li
-              key={index}
-              className={size === selectedSize ? 'selected' : ''}
-              onClick={() => onSelect(size)}
-            >
-              <button>
-                {Array.from({ length: size }, (_, index) => index).map((dot) => (
-                  <span key={dot}>.</span>
-                ))}
+            <li key={ship.name}>
+              <button className={`${isActive ? 'active' : ''}`} onClick={() => selectShip(ship)}>
+                Size: {ship.length}
               </button>
             </li>
           );
