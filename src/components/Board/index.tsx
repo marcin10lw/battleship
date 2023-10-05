@@ -1,14 +1,18 @@
 import { useState } from 'react';
 
 import './style.css';
+import Ship from '../Ship';
 
 const Board = () => {
   const [grid, setGrid] = useState<string[][]>([]);
+  const [playerShips, setPlayerShips] = useState<string[][]>([]);
+
   const rows = 10;
   const columns = 10;
 
   if (grid.length === 0) {
     const newGrid: string[][] = [];
+
     for (let i = 0; i < rows; i++) {
       const newRow: string[] = [];
       for (let j = 0; j < columns; j++) {
@@ -19,21 +23,18 @@ const Board = () => {
     }
 
     setGrid(newGrid);
+    setPlayerShips(newGrid.map((row) => [...row]));
   }
 
   const handleClick = (row: number, col: number) => {
-    const cell = grid[row][col];
-
-    if (cell === 'empty') {
-      const newGrid = [...grid];
-      newGrid[row][col] = 'ship';
-      setGrid(newGrid);
-    } else if (cell === 'ship') {
-      const newGrid = [...grid];
-      newGrid[row][col] = 'hit';
-      setGrid(newGrid);
-    } else if (cell === 'hit' || cell === 'miss') {
-      console.log('You already shot here');
+    if (playerShips[row][col] === 'empty') {
+      const newPlayerShips = [...playerShips];
+      newPlayerShips[row][col] = 'ship';
+      setPlayerShips(newPlayerShips);
+    } else if (playerShips[row][col] === 'ship') {
+      const newPlayerShips = [...playerShips];
+      newPlayerShips[row][col] = 'empty';
+      setPlayerShips(newPlayerShips);
     }
   };
 
@@ -46,7 +47,11 @@ const Board = () => {
               onClick={() => handleClick(rowIndex, colIndex)}
               className={`cell ${cell}`}
               key={colIndex}
-            ></div>
+            >
+              {playerShips[rowIndex][colIndex] === 'ship' && (
+                <Ship size={1} orientation="horizontal" />
+              )}
+            </div>
           ))}
         </div>
       ))}
