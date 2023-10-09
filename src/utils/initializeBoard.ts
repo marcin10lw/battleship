@@ -1,7 +1,7 @@
 import { Square } from '../types';
-import { BOARD_HEIGHT, BOARD_WIDTH } from './constants';
+import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from './constants';
 
-const initializeBoard = () => {
+export const initializeBoard = () => {
   const board = [];
   for (let i = 0; i < BOARD_HEIGHT; i++) {
     const row = [];
@@ -15,4 +15,47 @@ const initializeBoard = () => {
   return board as Square[][];
 };
 
-export default initializeBoard;
+export const createComputerBoard = () => {
+  const newComputerBoard: Square[][] = initializeBoard();
+
+  for (const ship of SHIPS) {
+    let isValidPlacement = false;
+
+    while (!isValidPlacement) {
+      const isVertical = Math.random() < 0.5;
+      const randomRowStartIndex = Math.floor(Math.random() * BOARD_HEIGHT);
+      const randomColStartIndex = Math.floor(Math.random() * BOARD_WIDTH);
+
+      if (
+        (isVertical && randomRowStartIndex + ship.length <= BOARD_HEIGHT) ||
+        (!isVertical && randomColStartIndex + ship.length <= BOARD_WIDTH)
+      ) {
+        isValidPlacement = true;
+
+        for (let i = 0; i < ship.length; i++) {
+          if (
+            (isVertical &&
+              newComputerBoard[randomRowStartIndex + i][randomColStartIndex] !== 'empty') ||
+            (!isVertical &&
+              newComputerBoard[randomRowStartIndex][randomColStartIndex + i] !== 'empty')
+          ) {
+            isValidPlacement = false;
+            break;
+          }
+        }
+
+        if (isValidPlacement) {
+          for (let i = 0; i < ship.length; i++) {
+            if (isVertical) {
+              newComputerBoard[randomRowStartIndex + i][randomColStartIndex] = 'ship';
+            } else {
+              newComputerBoard[randomRowStartIndex][randomColStartIndex + i] = 'ship';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return newComputerBoard as Square[][];
+};

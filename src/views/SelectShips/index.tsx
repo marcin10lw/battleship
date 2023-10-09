@@ -3,21 +3,33 @@ import { useState } from 'react';
 import Board from '../../components/Board';
 import SelectShip from '../../components/SelectShip';
 import { Ship, Square } from '../../types';
-import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from '../../utils/constants';
+import { BOARD_HEIGHT, BOARD_WIDTH } from '../../utils/constants';
 
 type SelectShipsProps = {
   playerBoard: Square[][];
+  remainingPlayerShips: Ship[];
+  canStartGame: boolean;
   setPlayerBoard: React.Dispatch<React.SetStateAction<Square[][]>>;
+  setRemainingPlayerShips: React.Dispatch<React.SetStateAction<Ship[]>>;
+  startGame: () => void;
 };
 
-const SelectShips = ({ playerBoard, setPlayerBoard }: SelectShipsProps) => {
+const SelectShips = ({
+  playerBoard,
+  remainingPlayerShips,
+  canStartGame,
+  setPlayerBoard,
+  setRemainingPlayerShips,
+  startGame,
+}: SelectShipsProps) => {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
-  const [remainingShips, setRemainingShips] = useState<Ship[]>(SHIPS);
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
 
   const onPlayerShipPlacementSuccess = () => {
     setSelectedShip(null);
-    setRemainingShips(remainingShips.filter((ship) => ship.name !== selectedShip?.name));
+    setRemainingPlayerShips(
+      remainingPlayerShips.filter((ship) => ship.name !== selectedShip?.name),
+    );
     setOrientation('horizontal');
   };
 
@@ -74,7 +86,7 @@ const SelectShips = ({ playerBoard, setPlayerBoard }: SelectShipsProps) => {
   return (
     <div>
       <SelectShip
-        remainingShips={remainingShips}
+        remainingShips={remainingPlayerShips}
         selectedShip={selectedShip}
         selectShip={selectShip}
       />
@@ -93,7 +105,9 @@ const SelectShips = ({ playerBoard, setPlayerBoard }: SelectShipsProps) => {
       </button>
       <Board onClick={handlePlayerShipsPlacement} squares={playerBoard} />
 
-      <button>Start Game</button>
+      <button onClick={startGame} disabled={!canStartGame}>
+        Start Game
+      </button>
     </div>
   );
 };
