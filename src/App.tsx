@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { createComputerBoard, initializeBoard } from './utils/initializeBoard';
 import { Ship, Square } from './types';
 import SelectShips from './views/SelectShips';
-import { SHIPS } from './utils/constants';
+import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from './utils/constants';
 import Board from './components/Board';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
   const [gameStarted, setGameStarted] = useState(false);
   const [turn, setTurn] = useState<'player' | 'computer'>('player');
 
-  console.log(computerBoard);
+  console.log(playerBoard);
 
   const canStartGame = remainingPlayerShips.length === 0;
 
@@ -25,25 +25,53 @@ function App() {
     setGameStarted(true);
   };
 
+  const onComputerAttack = () => {
+    if (gameStarted && turn === 'computer') {
+      const randomRowIndex = Math.floor(Math.random() * BOARD_HEIGHT);
+      const randomColIndex = Math.floor(Math.random() * BOARD_WIDTH);
+      const newPlayerBoard = [...playerBoard];
+
+      if (playerBoard[randomRowIndex][randomColIndex] === 'empty') {
+        newPlayerBoard[randomRowIndex][randomColIndex] = 'miss';
+        setTurn('player');
+      } else if (playerBoard[randomRowIndex][randomColIndex] === 'ship') {
+        newPlayerBoard[randomRowIndex][randomColIndex] = 'hit';
+        setTurn('player');
+      } else {
+        setTurn('player');
+        return;
+      }
+
+      setPlayerBoard(newPlayerBoard);
+    }
+  };
+
   const onPlayerAttack = (row: number, col: number) => {
+    const newComputerBoard = [...computerBoard];
+
     if (gameStarted && turn === 'player') {
       if (computerBoard[row][col] === 'empty') {
-        const newComputerBoard = [...computerBoard];
         newComputerBoard[row][col] = 'miss';
-        setComputerBoard(newComputerBoard);
-
-        setTurn('computer');
       } else if (computerBoard[row][col] === 'ship') {
-        const newComputerBoard = [...computerBoard];
         newComputerBoard[row][col] = 'hit';
-        setComputerBoard(newComputerBoard);
-
-        setTurn('computer');
       } else {
         return;
       }
+
+      setTurn('computer');
+      setComputerBoard(newComputerBoard);
     }
   };
+
+  useEffect(() => {
+    if (gameStarted && turn === 'computer') {
+      const timerId = setTimeout(() => {
+        onComputerAttack();
+      }, 200);
+
+      return () => clearTimeout(timerId);
+    }
+  }, [gameStarted, turn]);
 
   return (
     <div className="app">
