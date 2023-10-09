@@ -3,10 +3,11 @@ import './style.css';
 
 type BoardProps = {
   squares: Square[][];
+  owner: 'player' | 'computer';
   onClick?: (row: number, col: number) => void;
 };
 
-const Board = ({ squares, onClick }: BoardProps) => {
+const Board = ({ squares, onClick, owner }: BoardProps) => {
   return (
     <section>
       <div className="board">
@@ -15,7 +16,9 @@ const Board = ({ squares, onClick }: BoardProps) => {
             {row.map((square, colIndex) => (
               <div
                 onClick={onClick ? () => onClick(rowIndex, colIndex) : undefined}
-                className={`square ${square}`}
+                className={`square ${
+                  owner === 'player' ? square : square === 'ship' ? '' : square
+                }`}
                 key={colIndex}
               ></div>
             ))}

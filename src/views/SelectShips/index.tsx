@@ -103,7 +103,7 @@ const SelectShips = ({
       >
         {orientation === 'horizontal' ? 'horizontal' : 'vertical'}
       </button>
-      <Board onClick={handlePlayerShipsPlacement} squares={playerBoard} />
+      <Board onClick={handlePlayerShipsPlacement} squares={playerBoard} owner="player" />
 
       <button onClick={startGame} disabled={!canStartGame}>
         Start Game

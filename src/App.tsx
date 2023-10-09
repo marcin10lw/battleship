@@ -25,13 +25,33 @@ function App() {
     setGameStarted(true);
   };
 
+  const onPlayerAttack = (row: number, col: number) => {
+    if (gameStarted && turn === 'player') {
+      if (computerBoard[row][col] === 'empty') {
+        const newComputerBoard = [...computerBoard];
+        newComputerBoard[row][col] = 'miss';
+        setComputerBoard(newComputerBoard);
+
+        setTurn('computer');
+      } else if (computerBoard[row][col] === 'ship') {
+        const newComputerBoard = [...computerBoard];
+        newComputerBoard[row][col] = 'hit';
+        setComputerBoard(newComputerBoard);
+
+        setTurn('computer');
+      } else {
+        return;
+      }
+    }
+  };
+
   return (
     <div className="app">
       <h1>Battleship!</h1>
       {gameStarted ? (
         <div>
-          <Board squares={playerBoard} />
-          <Board squares={computerBoard} />
+          <Board squares={playerBoard} owner="player" />
+          <Board squares={computerBoard} owner="computer" onClick={onPlayerAttack} />
         </div>
       ) : (
         <SelectShips
