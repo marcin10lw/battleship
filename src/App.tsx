@@ -68,12 +68,18 @@ function App() {
           return;
         }
 
+        for (let i = 0; i < selectedShip.length; i++) {
+          if (playerBoard[row][col + i] !== 'empty') {
+            alert('Can not place ship there');
+            return;
+          }
+        }
+
         const newBoard = [...playerBoard];
         for (let i = 0; i < selectedShip.length; i++) {
           newBoard[row][col + i] = 'ship';
         }
         setPlayerBoard(newBoard);
-
         onPlayerShipPlacementSuccess();
       } else if (orientation === 'vertical') {
         if (row > height - selectedShip.length) {
@@ -81,12 +87,18 @@ function App() {
           return;
         }
 
+        for (let i = 0; i < selectedShip.length; i++) {
+          if (playerBoard[row + i][col] !== 'empty') {
+            alert('Can not place ship there');
+            return;
+          }
+        }
+
         const newBoard = [...playerBoard];
         for (let i = 0; i < selectedShip.length; i++) {
           newBoard[row + i][col] = 'ship';
         }
         setPlayerBoard(newBoard);
-
         onPlayerShipPlacementSuccess();
       }
     } else {
