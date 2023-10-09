@@ -1,51 +1,14 @@
 import { useState } from 'react';
+
+import initializeBoard from './utils/initializeBoard';
+import { Ship, Square } from './types';
+import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from './utils/constants';
 import Board from './components/Board';
 import SelectShip from './components/SelectShip';
-import { Ship, Square } from './types';
-
-const ships: Ship[] = [
-  {
-    name: 'destroyer',
-    length: 2,
-  },
-  {
-    name: 'submarine',
-    length: 3,
-  },
-  {
-    name: 'cruiser',
-    length: 3,
-  },
-  {
-    name: 'battleship',
-    length: 4,
-  },
-  {
-    name: 'carrier',
-    length: 5,
-  },
-];
-
-const width = 10;
-const height = 10;
-
-const initializeBoard = () => {
-  const board = [];
-  for (let i = 0; i < height; i++) {
-    const row = [];
-    for (let j = 0; j < width; j++) {
-      row.push('empty');
-    }
-
-    board.push(row);
-  }
-
-  return board as Square[][];
-};
 
 function App() {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
-  const [remainingShips, setRemainingShips] = useState<Ship[]>(ships);
+  const [remainingShips, setRemainingShips] = useState<Ship[]>(SHIPS);
   const [playerBoard, setPlayerBoard] = useState<Square[][]>(initializeBoard());
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
 
@@ -56,6 +19,7 @@ function App() {
   const onPlayerShipPlacementSuccess = () => {
     setSelectedShip(null);
     setRemainingShips(remainingShips.filter((ship) => ship.name !== selectedShip?.name));
+    setOrientation('horizontal');
   };
 
   const handlePlayerShipsPlacement = (row: number, col: number) => {
@@ -63,7 +27,7 @@ function App() {
 
     if (selectedShip) {
       if (orientation === 'horizontal') {
-        if (col > width - selectedShip.length) {
+        if (col > BOARD_WIDTH - selectedShip.length) {
           alert('Can not place ship there');
           return;
         }
@@ -82,7 +46,7 @@ function App() {
         setPlayerBoard(newBoard);
         onPlayerShipPlacementSuccess();
       } else if (orientation === 'vertical') {
-        if (row > height - selectedShip.length) {
+        if (row > BOARD_HEIGHT - selectedShip.length) {
           alert('Can not place ship there');
           return;
         }
