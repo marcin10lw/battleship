@@ -26,35 +26,71 @@ const ships: Ship[] = [
   },
 ];
 
+const width = 10;
+const height = 10;
+
+const initializeBoard = () => {
+  const board = [];
+  for (let i = 0; i < height; i++) {
+    const row = [];
+    for (let j = 0; j < width; j++) {
+      row.push('empty');
+    }
+
+    board.push(row);
+  }
+
+  return board as Square[][];
+};
+
 function App() {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
   const [remainingShips, setRemainingShips] = useState<Ship[]>(ships);
-  const [board, setBoard] = useState<Square[][]>([]);
+  const [playerBoard, setPlayerBoard] = useState<Square[][]>(initializeBoard());
+  const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
 
   const selectShip = (ship: Ship) => {
     setSelectedShip(ship);
   };
 
-  const handleSquareClick = (row: number, col: number) => {
-    if (selectedShip) {
-      if (row + selectedShip.length > board.length || col + selectedShip.length > board[0].length) {
-        alert('can not place ship there');
-      }
+  const onPlayerShipPlacementSuccess = () => {
+    setSelectedShip(null);
+    setRemainingShips(remainingShips.filter((ship) => ship.name !== selectedShip?.name));
+  };
 
-      for (let i = 0; i < selectedShip.length; i++) {
-        if (board[row + i][col] !== 'empty') {
-          alert('Ship placement is invalid. Squares are occupied.');
+  const handlePlayerShipsPlacement = (row: number, col: number) => {
+    console.log(row, col);
+
+    if (selectedShip) {
+      if (orientation === 'horizontal') {
+        if (col > width - selectedShip.length) {
+          alert('Can not place ship there');
           return;
         }
+
+        const newBoard = [...playerBoard];
+        for (let i = 0; i < selectedShip.length; i++) {
+          newBoard[row][col + i] = 'ship';
+        }
+        setPlayerBoard(newBoard);
+
+        onPlayerShipPlacementSuccess();
+      } else if (orientation === 'vertical') {
+        if (row > height - selectedShip.length) {
+          alert('Can not place ship there');
+          return;
+        }
+
+        const newBoard = [...playerBoard];
+        for (let i = 0; i < selectedShip.length; i++) {
+          newBoard[row + i][col] = 'ship';
+        }
+        setPlayerBoard(newBoard);
+
+        onPlayerShipPlacementSuccess();
       }
-
-      const updatedBoard = [...board];
-
-      for (let i = 0; i < selectedShip.length; i++) {
-        updatedBoard[row + i][col] = 'ship';
-      }
-
-      setBoard(updatedBoard);
+    } else {
+      alert('You must select ship first');
     }
   };
 
@@ -66,7 +102,20 @@ function App() {
         selectedShip={selectedShip}
         selectShip={selectShip}
       />
-      <Board onClick={handleSquareClick} squares={board} />
+      <button
+        onClick={() =>
+          setOrientation((orientation) => {
+            if (orientation === 'horizontal') {
+              return 'vertical';
+            }
+
+            return 'horizontal';
+          })
+        }
+      >
+        {orientation === 'horizontal' ? 'horizontal' : 'vertical'}
+      </button>
+      <Board onClick={handlePlayerShipsPlacement} squares={playerBoard} />
 
       <button>Start Game</button>
     </div>
