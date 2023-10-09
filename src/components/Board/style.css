@@ -10,23 +10,23 @@
   grid-template-columns: repeat(10, 40px);
 }
 
-.cell {
+.square {
   border: 1px solid grey;
   cursor: pointer;
 }
 
-.cell:hover {
+.square:hover {
   background-color: lightgrey;
 }
 
-.cell.ship {
+.square.ship {
   background-color: #b3ccff;
 }
 
-.cell.hit {
+.square.hit {
   background-color: #ff5050;
 }
 
-.cell.miss {
+.square.miss {
   background-color: #99ff99;
 }

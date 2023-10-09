@@ -5,12 +5,7 @@ type ShipProps = {
   orientation: 'horizontal' | 'vertical';
 };
 
-const Ship = ({ orientation, size }: ShipProps) => {
-  const shipStyle = {
-    width: orientation === 'horizontal' ? `${size * 40}px` : '40px',
-    height: orientation === 'vertical' ? `${size * 40}px` : '40px',
-  };
-
+const Ship = ({ orientation }: ShipProps) => {
   return <div className={`ship ${orientation}`}></div>;
 };
 
