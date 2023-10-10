@@ -1,9 +1,9 @@
-import { Square } from '../../types';
+import { Square, User } from '../../types';
 import './style.css';
 
 type BoardProps = {
   squares: Square[][];
-  owner: 'player' | 'computer';
+  owner: User;
   onClick?: (row: number, col: number) => void;
 };
 

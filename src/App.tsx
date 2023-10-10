@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { createComputerBoard, initializeBoard } from './utils/initializeBoard';
-import { Ship, Square } from './types';
-import SelectShips from './views/SelectShips';
+import { Ship, Square, User } from './types';
+import SelectShips from './components/SelectShips';
 import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from './utils/constants';
 import Board from './components/Board';
 import createSquaresLeft from './utils/createSquaresLeft';
@@ -14,10 +14,8 @@ function App() {
   const [computerBoard, setComputerBoard] = useState<Square[][]>(createComputerBoard());
 
   const [gameStarted, setGameStarted] = useState(false);
-  const [turn, setTurn] = useState<'player' | 'computer'>('player');
+  const [turn, setTurn] = useState<User>('player');
   const [winner, setWinner] = useState<'player' | 'computer' | null>(null);
-
-  console.log(createSquaresLeft(playerBoard));
 
   const playerSquaresLeft = createSquaresLeft(playerBoard);
   const computerSquaresLeft = createSquaresLeft(computerBoard);
@@ -59,9 +57,9 @@ function App() {
   };
 
   const onPlayerAttack = (row: number, col: number) => {
-    const newComputerBoard = [...computerBoard];
+    if (gameStarted && turn === 'player' && !winner) {
+      const newComputerBoard = [...computerBoard];
 
-    if (gameStarted && turn === 'player') {
       if (computerBoard[row][col] === 'empty') {
         newComputerBoard[row][col] = 'miss';
       } else if (computerBoard[row][col] === 'ship') {

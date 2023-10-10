@@ -4,3 +4,5 @@ export type Ship = {
 };
 
 export type Square = 'empty' | 'ship' | 'hit' | 'miss';
+
+export type User = 'player' | 'computer';

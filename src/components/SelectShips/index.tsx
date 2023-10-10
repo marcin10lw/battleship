@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import Board from '../../components/Board';
-import SelectShip from '../../components/SelectShip';
+import Board from '../Board';
+import SelectShip from '../SelectShip';
 import { Ship, Square } from '../../types';
 import { BOARD_HEIGHT, BOARD_WIDTH } from '../../utils/constants';
 
