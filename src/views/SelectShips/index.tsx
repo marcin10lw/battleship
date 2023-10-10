@@ -11,7 +11,6 @@ type SelectShipsProps = {
   canStartGame: boolean;
   setPlayerBoard: React.Dispatch<React.SetStateAction<Square[][]>>;
   setRemainingPlayerShips: React.Dispatch<React.SetStateAction<Ship[]>>;
-  setPlayerSquares: React.Dispatch<React.SetStateAction<never[]>>;
   startGame: () => void;
 };
 
@@ -21,7 +20,6 @@ const SelectShips = ({
   canStartGame,
   setPlayerBoard,
   setRemainingPlayerShips,
-  setPlayerSquares,
   startGame,
 }: SelectShipsProps) => {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
@@ -55,13 +53,10 @@ const SelectShips = ({
         }
 
         const newBoard = [...playerBoard];
-        const newPlayerSquares = [];
         for (let i = 0; i < selectedShip.length; i++) {
           newBoard[row][col + i] = 'ship';
-          newPlayerSquares.push(`${row}_${col + i}`);
         }
         setPlayerBoard(newBoard);
-        setPlayerSquares((playerSquares) => [...playerSquares, ...newPlayerSquares]);
         onPlayerShipPlacementSuccess();
       } else if (orientation === 'vertical') {
         if (row > BOARD_HEIGHT - selectedShip.length) {
@@ -77,13 +72,10 @@ const SelectShips = ({
         }
 
         const newBoard = [...playerBoard];
-        const newPlayerSquares = [];
         for (let i = 0; i < selectedShip.length; i++) {
           newBoard[row + i][col] = 'ship';
-          newPlayerSquares.push(`${row + i}_${col}`);
         }
         setPlayerBoard(newBoard);
-        setPlayerSquares((playerSquares) => [...playerSquares, ...newPlayerSquares]);
         onPlayerShipPlacementSuccess();
       }
     } else {

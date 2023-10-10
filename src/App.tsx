@@ -5,6 +5,7 @@ import { Ship, Square } from './types';
 import SelectShips from './views/SelectShips';
 import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from './utils/constants';
 import Board from './components/Board';
+import createSquaresLeft from './utils/createSquaresLeft';
 
 function App() {
   const [remainingPlayerShips, setRemainingPlayerShips] = useState<Ship[]>(SHIPS);
@@ -12,32 +13,14 @@ function App() {
   const [playerBoard, setPlayerBoard] = useState<Square[][]>(initializeBoard());
   const [computerBoard, setComputerBoard] = useState<Square[][]>(createComputerBoard());
 
-  const initializeComputerSquares = (board: Square[][]) => {
-    const newComputerSquares: string[] = [];
-
-    board.forEach((row, rowIndex) => {
-      row.forEach((col, colIndex) => {
-        if (col === 'ship') {
-          newComputerSquares.push(`${rowIndex}_${colIndex}`);
-        }
-      });
-    });
-
-    return newComputerSquares;
-  };
-
-  const [playerShipSquares, setPlayerShipSquares] = useState(
-    initializeComputerSquares(playerBoard),
-  );
-  const [computerShipSquares, setComputerShipSquares] = useState(
-    initializeComputerSquares(computerBoard),
-  );
-
   const [gameStarted, setGameStarted] = useState(false);
   const [turn, setTurn] = useState<'player' | 'computer'>('player');
   const [winner, setWinner] = useState<'player' | 'computer' | null>(null);
 
-  console.log(winner);
+  console.log(createSquaresLeft(playerBoard));
+
+  const playerSquaresLeft = createSquaresLeft(playerBoard);
+  const computerSquaresLeft = createSquaresLeft(computerBoard);
 
   const canStartGame = remainingPlayerShips.length === 0;
   const startGame = () => {
@@ -49,23 +32,29 @@ function App() {
   };
 
   const onComputerAttack = () => {
-    if (gameStarted && turn === 'computer') {
-      const randomRowIndex = Math.floor(Math.random() * BOARD_HEIGHT);
-      const randomColIndex = Math.floor(Math.random() * BOARD_WIDTH);
-      const newPlayerBoard = [...playerBoard];
+    if (gameStarted && turn === 'computer' && !winner) {
+      let randomRow: number, randomCol: number;
+      do {
+        randomRow = Math.floor(Math.random() * BOARD_HEIGHT);
+        randomCol = Math.floor(Math.random() * BOARD_WIDTH);
+      } while (
+        playerBoard[randomRow][randomCol] === 'miss' ||
+        playerBoard[randomRow][randomCol] === 'hit'
+      );
 
-      if (playerBoard[randomRowIndex][randomColIndex] === 'empty') {
-        newPlayerBoard[randomRowIndex][randomColIndex] = 'miss';
-        setTurn('player');
-      } else if (playerBoard[randomRowIndex][randomColIndex] === 'ship') {
-        newPlayerBoard[randomRowIndex][randomColIndex] = 'hit';
+      if (playerBoard[randomRow][randomCol] === 'ship') {
+        const newPlayerBoard = [...playerBoard];
+        newPlayerBoard[randomRow][randomCol] = 'hit';
+        setPlayerBoard(newPlayerBoard);
+
         setTurn('player');
       } else {
-        setTurn('player');
-        return;
-      }
+        const newPlayerBoard = [...playerBoard];
+        newPlayerBoard[randomRow][randomCol] = 'miss';
+        setPlayerBoard(newPlayerBoard);
 
-      setPlayerBoard(newPlayerBoard);
+        setTurn('player');
+      }
     }
   };
 
@@ -77,7 +66,6 @@ function App() {
         newComputerBoard[row][col] = 'miss';
       } else if (computerBoard[row][col] === 'ship') {
         newComputerBoard[row][col] = 'hit';
-        setComputerShipSquares(computerShipSquares.filter((square) => square !== `${row}_${col}`));
       } else {
         return;
       }
@@ -88,24 +76,24 @@ function App() {
   };
 
   useEffect(() => {
-    if (gameStarted && turn === 'computer') {
+    if (gameStarted && turn === 'computer' && !winner) {
       const timerId = setTimeout(() => {
         onComputerAttack();
       }, 200);
 
       return () => clearTimeout(timerId);
     }
-  }, [gameStarted, turn]);
+  }, [gameStarted, turn, winner]);
 
   useEffect(() => {
-    if (gameStarted) {
-      if (playerShipSquares.length === 0) {
+    if (gameStarted && !winner) {
+      if (playerSquaresLeft.length === 0) {
         setWinner('computer');
-      } else if (computerShipSquares.length === 0) {
+      } else if (computerSquaresLeft.length === 0) {
         setWinner('player');
       }
     }
-  }, [playerShipSquares, computerShipSquares, gameStarted]);
+  }, [playerSquaresLeft, computerSquaresLeft, gameStarted, winner]);
 
   return (
     <div className="app">
@@ -119,10 +107,9 @@ function App() {
         <SelectShips
           canStartGame={canStartGame}
           playerBoard={playerBoard}
-          setPlayerBoard={setPlayerBoard}
           remainingPlayerShips={remainingPlayerShips}
+          setPlayerBoard={setPlayerBoard}
           setRemainingPlayerShips={setRemainingPlayerShips}
-          setPlayerSquares={setPlayerShipSquares}
           startGame={startGame}
         />
       )}
