@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { createComputerBoard, initializeBoard } from '../utils/initializeBoard';
 import createSquaresLeft from '../utils/createSquaresLeft';
-import { Ship, Square, User } from '../types';
+import { Points, Ship, Square, User } from '../types';
 import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from '../utils/constants';
 
 const useBattleship = () => {
@@ -14,6 +14,11 @@ const useBattleship = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [turn, setTurn] = useState<User>('player');
   const [winner, setWinner] = useState<'player' | 'computer' | null>(null);
+
+  const [points, setPoints] = useState<Points>({
+    player: 0,
+    computer: 0,
+  });
 
   const playerSquaresLeft = createSquaresLeft(playerBoard);
   const computerSquaresLeft = createSquaresLeft(computerBoard);
@@ -42,6 +47,7 @@ const useBattleship = () => {
         const newPlayerBoard = [...playerBoard];
         newPlayerBoard[randomRow][randomCol] = 'hit';
         setPlayerBoard(newPlayerBoard);
+        setPoints((points) => ({ ...points, computer: points.computer + 1 }));
 
         setTurn('player');
       } else {
@@ -62,6 +68,7 @@ const useBattleship = () => {
         newComputerBoard[row][col] = 'miss';
       } else if (computerBoard[row][col] === 'ship') {
         newComputerBoard[row][col] = 'hit';
+        setPoints((points) => ({ ...points, player: points.player + 1 }));
       } else {
         return;
       }
@@ -98,8 +105,9 @@ const useBattleship = () => {
     playerBoard,
     computerBoard,
     canStartGame,
-    setPlayerBoard,
     remainingPlayerShips,
+    points,
+    setPlayerBoard,
     startGame,
     onPlayerAttack,
     setRemainingPlayerShips,

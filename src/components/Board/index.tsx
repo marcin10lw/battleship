@@ -1,17 +1,18 @@
-import { Square, User } from '../../types';
+import { Points, Square, User } from '../../types';
 
 type BoardProps = {
   squares: Square[][];
   owner: User;
+  points?: Points;
   isGameBoard?: boolean;
   onClick?: (row: number, col: number) => void;
 };
 
-const Board = ({ squares, onClick, owner, isGameBoard }: BoardProps) => {
+const Board = ({ squares, onClick, owner, isGameBoard, points }: BoardProps) => {
   return (
     <div>
       <h2 className="mb-1 text-center text-2xl font-medium uppercase text-zinc-700">
-        {isGameBoard && owner}
+        {isGameBoard && points && `${owner}: ${points[owner]}`}
       </h2>
 
       <div className="grid grid-rows-[repeat(10,_35px)] border border-solid border-gray-500 lg:grid-rows-[repeat(10,_40px)]">

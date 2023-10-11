@@ -8,6 +8,7 @@ function App() {
     computerBoard,
     gameStarted,
     playerBoard,
+    points,
     remainingPlayerShips,
     setPlayerBoard,
     onPlayerAttack,
@@ -20,8 +21,14 @@ function App() {
       <h1 className="text-center text-4xl lg:text-5xl">Battleship!</h1>
       {gameStarted ? (
         <section className="flex flex-col items-center justify-center gap-12 py-12 lg:flex-row lg:gap-16 lg:pt-20">
-          <Board squares={playerBoard} owner="player" isGameBoard />
-          <Board squares={computerBoard} owner="computer" onClick={onPlayerAttack} isGameBoard />
+          <Board points={points} squares={playerBoard} owner="player" isGameBoard />
+          <Board
+            points={points}
+            squares={computerBoard}
+            owner="computer"
+            onClick={onPlayerAttack}
+            isGameBoard
+          />
         </section>
       ) : (
         <SelectShips
