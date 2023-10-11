@@ -8,7 +8,7 @@ const PlayAgain = ({ onClick }: PlayAgainProps) => {
   return (
     <button
       onClick={onClick}
-      className="block h-8 w-8 transition-transform duration-300 hover:-rotate-45"
+      className={`block w-full  transition-transform duration-300 hover:-rotate-45`}
     >
       <TfiReload />
     </button>

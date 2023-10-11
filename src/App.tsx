@@ -1,6 +1,7 @@
 import useBattleship from './hooks/useBattleship';
 import SelectShips from './components/SelectShips';
 import Game from './components/Game';
+import ResultBackdrop from './components/ResultBackdrop';
 
 function App() {
   const {
@@ -38,6 +39,8 @@ function App() {
           startGame={startGame}
         />
       )}
+
+      <ResultBackdrop playAgain={playAgain} />
     </main>
   );
 }
