@@ -14,7 +14,9 @@ const Game = ({ points, playerBoard, computerBoard, playAgain, onPlayerAttack }:
   return (
     <section className="flex flex-col items-center justify-center gap-8 py-12 lg:flex-row lg:gap-14 lg:pt-20">
       <Board points={points} squares={playerBoard} owner="player" isGameBoard />
-      <PlayAgain onClick={playAgain} />
+      <div className="w-12">
+        <PlayAgain onClick={playAgain} />
+      </div>
       <Board
         points={points}
         squares={computerBoard}

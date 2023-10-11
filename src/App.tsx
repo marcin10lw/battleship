@@ -11,6 +11,7 @@ function App() {
     playerBoard,
     points,
     remainingPlayerShips,
+    winner,
     setPlayerBoard,
     onPlayerAttack,
     setRemainingPlayerShips,
@@ -40,7 +41,7 @@ function App() {
         />
       )}
 
-      <ResultBackdrop playAgain={playAgain} />
+      {gameStarted && winner && <ResultBackdrop winner={winner} playAgain={playAgain} />}
     </main>
   );
 }

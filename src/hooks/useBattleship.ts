@@ -119,6 +119,7 @@ const useBattleship = () => {
     canStartGame,
     remainingPlayerShips,
     points,
+    winner,
     setPlayerBoard,
     startGame,
     playAgain,
