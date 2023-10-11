@@ -79,6 +79,8 @@ const useBattleship = () => {
 
       return () => clearTimeout(timerId);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameStarted, turn, winner]);
 
   useEffect(() => {

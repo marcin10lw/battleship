@@ -4,6 +4,7 @@ import Board from '../Board';
 import SelectShip from '../SelectShip';
 import { Ship, Square } from '../../types';
 import { BOARD_HEIGHT, BOARD_WIDTH } from '../../utils/constants';
+import { toast } from 'sonner';
 
 type SelectShipsProps = {
   playerBoard: Square[][];
@@ -37,17 +38,19 @@ const SelectShips = ({
     setSelectedShip(ship);
   };
 
+  const showPlacementError = () => toast.error('Can not place ship there');
+
   const handlePlayerShipsPlacement = (row: number, col: number) => {
     if (selectedShip) {
       if (orientation === 'horizontal') {
         if (col > BOARD_WIDTH - selectedShip.length) {
-          alert('Can not place ship there');
+          showPlacementError();
           return;
         }
 
         for (let i = 0; i < selectedShip.length; i++) {
           if (playerBoard[row][col + i] !== 'empty') {
-            alert('Can not place ship there');
+            showPlacementError();
             return;
           }
         }
@@ -60,13 +63,13 @@ const SelectShips = ({
         onPlayerShipPlacementSuccess();
       } else if (orientation === 'vertical') {
         if (row > BOARD_HEIGHT - selectedShip.length) {
-          alert('Can not place ship there');
+          showPlacementError();
           return;
         }
 
         for (let i = 0; i < selectedShip.length; i++) {
           if (playerBoard[row + i][col] !== 'empty') {
-            alert('Can not place ship there');
+            showPlacementError();
             return;
           }
         }
@@ -79,13 +82,13 @@ const SelectShips = ({
         onPlayerShipPlacementSuccess();
       }
     } else {
-      alert('You must select ship first');
+      toast.message('You must select ship first');
     }
   };
 
   return (
     <section className="mx-auto max-w-[400px] py-12 lg:max-w-3xl lg:py-20">
-      <div className="flex flex-col items-center justify-between gap-12 lg:gap-16 lg:flex-row lg:items-start">
+      <div className="flex flex-col items-center justify-between gap-12 lg:flex-row lg:items-start lg:gap-16">
         <div>
           <SelectShip
             remainingShips={remainingPlayerShips}

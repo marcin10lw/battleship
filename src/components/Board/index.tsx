@@ -14,7 +14,7 @@ const Board = ({ squares, onClick, owner, isGameBoard }: BoardProps) => {
         {isGameBoard && owner}
       </h2>
 
-      <div className="grid w-[350px] grid-rows-[repeat(10,_35px)] border border-solid border-gray-500 lg:w-[400px] lg:grid-rows-[repeat(10,_40px)]">
+      <div className="grid grid-rows-[repeat(10,_35px)] border border-solid border-gray-500 lg:grid-rows-[repeat(10,_40px)]">
         {squares.map((row, rowIndex) => (
           <div
             key={rowIndex}
