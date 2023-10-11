@@ -16,8 +16,8 @@ function App() {
   } = useBattleship();
 
   return (
-    <div className="app">
-      <h1>Battleship!</h1>
+    <main className="mx-auto min-h-screen max-w-6xl pt-12">
+      <h1 className="text-center lg:text-5xl">Battleship!</h1>
       {gameStarted ? (
         <div>
           <Board squares={playerBoard} owner="player" />
@@ -33,7 +33,7 @@ function App() {
           startGame={startGame}
         />
       )}
-    </div>
+    </main>
   );
 }
 

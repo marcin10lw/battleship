@@ -84,31 +84,35 @@ const SelectShips = ({
   };
 
   return (
-    <div>
-      <SelectShip
-        remainingShips={remainingPlayerShips}
-        selectedShip={selectedShip}
-        selectShip={selectShip}
-      />
-      <button
-        onClick={() =>
-          setOrientation((orientation) => {
-            if (orientation === 'horizontal') {
-              return 'vertical';
-            }
+    <section className="mt-20">
+      <div className="flex flex-col justify-center gap-16 lg:flex-row">
+        <div className="">
+          <SelectShip
+            remainingShips={remainingPlayerShips}
+            selectedShip={selectedShip}
+            selectShip={selectShip}
+          />
+          <button
+            onClick={() =>
+              setOrientation((orientation) => {
+                if (orientation === 'horizontal') {
+                  return 'vertical';
+                }
 
-            return 'horizontal';
-          })
-        }
-      >
-        {orientation === 'horizontal' ? 'horizontal' : 'vertical'}
-      </button>
-      <Board onClick={handlePlayerShipsPlacement} squares={playerBoard} owner="player" />
+                return 'horizontal';
+              })
+            }
+          >
+            {orientation === 'horizontal' ? 'horizontal' : 'vertical'}
+          </button>
+        </div>
+        <Board onClick={handlePlayerShipsPlacement} squares={playerBoard} owner="player" />
+      </div>
 
       <button onClick={startGame} disabled={!canStartGame}>
         Start Game
       </button>
-    </div>
+    </section>
   );
 };
 export default SelectShips;

@@ -10,8 +10,8 @@ type SelectShipProps = {
 const SelectShip = ({ remainingShips, selectedShip, selectShip }: SelectShipProps) => {
   return (
     <div className="selectShip">
-      <h2>Choose your ship</h2>
-      <ul className="selectShip__list">
+      <h2 className="text-2xl">Place your ships</h2>
+      <ul className="mt-2 flex flex-col gap-2">
         {remainingShips.map((ship) => {
           const isActive = selectedShip === ship;
 

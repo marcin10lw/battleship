@@ -9,7 +9,7 @@ type BoardProps = {
 
 const Board = ({ squares, onClick, owner }: BoardProps) => {
   return (
-    <section>
+    <div>
       <div className="board">
         {squares.map((row, rowIndex) => (
           <div key={rowIndex} className="board__row">
@@ -25,7 +25,7 @@ const Board = ({ squares, onClick, owner }: BoardProps) => {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 
