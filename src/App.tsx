@@ -1,6 +1,7 @@
 import SelectShips from './components/SelectShips';
 import Board from './components/Board';
 import useBattleship from './hooks/useBattleship';
+import PlayAgain from './components/PlayAgain';
 
 function App() {
   const {
@@ -22,6 +23,7 @@ function App() {
       {gameStarted ? (
         <section className="flex flex-col items-center justify-center gap-12 py-12 lg:flex-row lg:gap-16 lg:pt-20">
           <Board points={points} squares={playerBoard} owner="player" isGameBoard />
+          <PlayAgain />
           <Board
             points={points}
             squares={computerBoard}
