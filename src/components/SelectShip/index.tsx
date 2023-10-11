@@ -1,5 +1,4 @@
 import { Ship } from '../../types';
-import './style.css';
 
 type SelectShipProps = {
   remainingShips: Ship[];

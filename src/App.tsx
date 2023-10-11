@@ -19,10 +19,10 @@ function App() {
     <main className="mx-auto min-h-screen max-w-6xl pt-12">
       <h1 className="text-center text-4xl lg:text-5xl">Battleship!</h1>
       {gameStarted ? (
-        <div>
-          <Board squares={playerBoard} owner="player" />
-          <Board squares={computerBoard} owner="computer" onClick={onPlayerAttack} />
-        </div>
+        <section className="flex flex-col items-center justify-center gap-12 py-12 lg:flex-row lg:gap-16 lg:pt-20">
+          <Board squares={playerBoard} owner="player" isGameBoard />
+          <Board squares={computerBoard} owner="computer" onClick={onPlayerAttack} isGameBoard />
+        </section>
       ) : (
         <SelectShips
           canStartGame={canStartGame}

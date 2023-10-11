@@ -1,27 +1,52 @@
 import { Square, User } from '../../types';
-import './style.css';
 
 type BoardProps = {
   squares: Square[][];
   owner: User;
+  isGameBoard?: boolean;
   onClick?: (row: number, col: number) => void;
 };
 
-const Board = ({ squares, onClick, owner }: BoardProps) => {
+const Board = ({ squares, onClick, owner, isGameBoard }: BoardProps) => {
   return (
     <div>
-      <div className="board">
+      <h2 className="mb-1 text-center text-2xl font-medium uppercase text-zinc-700">
+        {isGameBoard && owner}
+      </h2>
+
+      <div className="grid w-[350px] grid-rows-[repeat(10,_35px)] border border-solid border-gray-500 lg:w-[400px] lg:grid-rows-[repeat(10,_40px)]">
         {squares.map((row, rowIndex) => (
-          <div key={rowIndex} className="board__row">
-            {row.map((square, colIndex) => (
-              <div
-                onClick={onClick ? () => onClick(rowIndex, colIndex) : undefined}
-                className={`square ${
-                  owner === 'player' ? square : square === 'ship' ? '' : square
-                }`}
-                key={colIndex}
-              ></div>
-            ))}
+          <div
+            key={rowIndex}
+            className="grid grid-cols-[repeat(10,_35px)] lg:grid-cols-[repeat(10,_40px)]"
+          >
+            {row.map((square, colIndex) => {
+              let squareStyle: `bg-${Square}`;
+
+              switch (square) {
+                case 'empty':
+                  squareStyle = 'bg-empty';
+                  break;
+                case 'ship':
+                  squareStyle = 'bg-ship';
+                  break;
+                case 'hit':
+                  squareStyle = 'bg-hit';
+                  break;
+                case 'miss':
+                  squareStyle = 'bg-miss';
+              }
+
+              return (
+                <div
+                  onClick={onClick ? () => onClick(rowIndex, colIndex) : undefined}
+                  className={`cursor-pointer border border-gray-500 ${
+                    owner === 'player' ? squareStyle : square === 'ship' ? '' : squareStyle
+                  }`}
+                  key={colIndex}
+                />
+              );
+            })}
           </div>
         ))}
       </div>
