@@ -1,7 +1,6 @@
-import SelectShips from './components/SelectShips';
-import Board from './components/Board';
 import useBattleship from './hooks/useBattleship';
-import PlayAgain from './components/PlayAgain';
+import SelectShips from './components/SelectShips';
+import Game from './components/Game';
 
 function App() {
   const {
@@ -22,17 +21,13 @@ function App() {
     <main className="mx-auto min-h-screen max-w-6xl pt-12">
       <h1 className="text-center text-4xl lg:text-5xl">Battleship!</h1>
       {gameStarted ? (
-        <section className="flex flex-col items-center justify-center gap-8 py-12 lg:flex-row lg:gap-14 lg:pt-20">
-          <Board points={points} squares={playerBoard} owner="player" isGameBoard />
-          <PlayAgain onClick={playAgain} />
-          <Board
-            points={points}
-            squares={computerBoard}
-            owner="computer"
-            onClick={onPlayerAttack}
-            isGameBoard
-          />
-        </section>
+        <Game
+          onPlayerAttack={onPlayerAttack}
+          computerBoard={computerBoard}
+          playerBoard={playerBoard}
+          playAgain={playAgain}
+          points={points}
+        />
       ) : (
         <SelectShips
           canStartGame={canStartGame}
