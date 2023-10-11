@@ -15,15 +15,16 @@ function App() {
     onPlayerAttack,
     setRemainingPlayerShips,
     startGame,
+    playAgain,
   } = useBattleship();
 
   return (
     <main className="mx-auto min-h-screen max-w-6xl pt-12">
       <h1 className="text-center text-4xl lg:text-5xl">Battleship!</h1>
       {gameStarted ? (
-        <section className="flex flex-col items-center justify-center gap-12 py-12 lg:flex-row lg:gap-16 lg:pt-20">
+        <section className="flex flex-col items-center justify-center gap-8 py-12 lg:flex-row lg:gap-14 lg:pt-20">
           <Board points={points} squares={playerBoard} owner="player" isGameBoard />
-          <PlayAgain />
+          <PlayAgain onClick={playAgain} />
           <Board
             points={points}
             squares={computerBoard}

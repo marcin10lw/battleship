@@ -1,8 +1,15 @@
 import { TfiReload } from 'react-icons/tfi';
 
-const PlayAgain = () => {
+type PlayAgainProps = {
+  onClick: () => void;
+};
+
+const PlayAgain = ({ onClick }: PlayAgainProps) => {
   return (
-    <button className="block h-8 w-8 transition-transform duration-300 hover:-rotate-45">
+    <button
+      onClick={onClick}
+      className="block h-8 w-8 transition-transform duration-300 hover:-rotate-45"
+    >
       <TfiReload />
     </button>
   );

@@ -32,6 +32,18 @@ const useBattleship = () => {
     setGameStarted(true);
   };
 
+  const playAgain = () => {
+    setGameStarted(false);
+    setRemainingPlayerShips(SHIPS);
+
+    setPlayerBoard(initializeBoard());
+    setComputerBoard(createComputerBoard());
+
+    setTurn('player');
+    setWinner(null);
+    setPoints({ computer: 0, player: 0 });
+  };
+
   const onComputerAttack = () => {
     if (gameStarted && turn === 'computer' && !winner) {
       let randomRow: number, randomCol: number;
@@ -109,6 +121,7 @@ const useBattleship = () => {
     points,
     setPlayerBoard,
     startGame,
+    playAgain,
     onPlayerAttack,
     setRemainingPlayerShips,
   };
