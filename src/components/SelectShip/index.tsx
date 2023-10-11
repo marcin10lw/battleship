@@ -1,4 +1,4 @@
-import { Ship } from '../../types';
+import { Ship } from 'src/types';
 
 type SelectShipProps = {
   remainingShips: Ship[];

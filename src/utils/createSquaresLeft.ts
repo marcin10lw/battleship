@@ -1,4 +1,4 @@
-import { Square } from '../types';
+import { Square } from 'src/types';
 
 const createSquaresLeft = (board: Square[][]) => {
   const newComputerSquares: string[] = [];

@@ -1,4 +1,4 @@
-import { Ship } from '../types';
+import { Ship } from 'src/types';
 
 export const BOARD_WIDTH = 10;
 export const BOARD_HEIGHT = 10;

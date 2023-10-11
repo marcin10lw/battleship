@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import { createComputerBoard, initializeBoard } from '../utils/initializeBoard';
-import createSquaresLeft from '../utils/createSquaresLeft';
-import { Points, Ship, Square, User } from '../types';
-import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from '../utils/constants';
+import { createComputerBoard, initializeBoard } from 'src/utils/initializeBoard';
+import createSquaresLeft from 'src/utils/createSquaresLeft';
+import { Points, Ship, Square, User } from 'src/types';
+import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from 'src/utils/constants';
 
 const useBattleship = () => {
   const [remainingPlayerShips, setRemainingPlayerShips] = useState<Ship[]>(SHIPS);

@@ -1,4 +1,4 @@
-import { Points, Square, User } from '../../types';
+import { Points, Square, User } from 'src/types';
 
 type BoardProps = {
   squares: Square[][];

@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import Board from '../Board';
 import SelectShip from '../SelectShip';
-import { Ship, Square } from '../../types';
-import { BOARD_HEIGHT, BOARD_WIDTH } from '../../utils/constants';
-import { toast } from 'sonner';
+import { Ship, Square } from 'src/types';
+import { BOARD_HEIGHT, BOARD_WIDTH } from 'src/utils/constants';
 
 type SelectShipsProps = {
   playerBoard: Square[][];

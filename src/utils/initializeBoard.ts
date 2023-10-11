@@ -1,4 +1,4 @@
-import { Square } from '../types';
+import { Square } from 'src/types';
 import { BOARD_HEIGHT, BOARD_WIDTH, SHIPS } from './constants';
 
 export const initializeBoard = () => {
