@@ -17,7 +17,7 @@ function App() {
 
   return (
     <main className="mx-auto min-h-screen max-w-6xl pt-12">
-      <h1 className="text-center lg:text-5xl">Battleship!</h1>
+      <h1 className="text-center text-4xl lg:text-5xl">Battleship!</h1>
       {gameStarted ? (
         <div>
           <Board squares={playerBoard} owner="player" />

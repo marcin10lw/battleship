@@ -84,32 +84,39 @@ const SelectShips = ({
   };
 
   return (
-    <section className="mt-20">
-      <div className="flex flex-col justify-center gap-16 lg:flex-row">
-        <div className="">
+    <section className="mx-auto max-w-[400px] py-12 lg:max-w-3xl lg:py-20">
+      <div className="flex flex-col items-center justify-between gap-12 lg:gap-16 lg:flex-row lg:items-start">
+        <div>
           <SelectShip
             remainingShips={remainingPlayerShips}
             selectedShip={selectedShip}
             selectShip={selectShip}
           />
-          <button
-            onClick={() =>
-              setOrientation((orientation) => {
-                if (orientation === 'horizontal') {
-                  return 'vertical';
-                }
+          {!canStartGame && (
+            <button
+              className="mx-auto mt-7 block rounded bg-rose-900 px-2 py-1 font-medium text-white lg:mx-0 lg:mt-10"
+              onClick={() =>
+                setOrientation((orientation) => {
+                  if (orientation === 'horizontal') {
+                    return 'vertical';
+                  }
 
-                return 'horizontal';
-              })
-            }
-          >
-            {orientation === 'horizontal' ? 'horizontal' : 'vertical'}
-          </button>
+                  return 'horizontal';
+                })
+              }
+            >
+              {orientation === 'horizontal' ? 'horizontal' : 'vertical'}
+            </button>
+          )}
         </div>
         <Board onClick={handlePlayerShipsPlacement} squares={playerBoard} owner="player" />
       </div>
 
-      <button onClick={startGame} disabled={!canStartGame}>
+      <button
+        onClick={startGame}
+        disabled={!canStartGame}
+        className="mt-10 block w-full cursor-pointer rounded-lg border-2 border-rose-700 py-2 text-xl font-medium transition-colors duration-200 hover:bg-rose-700 hover:text-white disabled:pointer-events-none disabled:opacity-50"
+      >
         Start Game
       </button>
     </section>
