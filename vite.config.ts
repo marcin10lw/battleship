@@ -9,4 +9,5 @@ export default defineConfig({
       src: '/src',
     },
   },
+  base: 'https://marcin10lw.github.io/battleship',
 });
