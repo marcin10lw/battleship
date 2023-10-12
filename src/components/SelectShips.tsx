@@ -87,9 +87,9 @@ const SelectShips = ({
   };
 
   return (
-    <section className="mx-auto max-w-[400px] py-12 lg:max-w-3xl lg:py-20">
-      <div className="flex flex-col items-center justify-between gap-12 lg:flex-row lg:items-start lg:gap-16">
-        <div>
+    <section className="mx-auto max-w-[350px] py-12 lg:max-w-3xl lg:py-20">
+      <div className="grid items-center justify-between gap-12 lg:grid-cols-[300px,_1fr] lg:items-start lg:gap-16">
+        <div className="h-full rounded bg-[hsl(0deg_0%_58.58%_/_10%)] px-4 py-6 lg:relative lg:p-8">
           <SelectShip
             remainingShips={remainingPlayerShips}
             selectedShip={selectedShip}
@@ -97,7 +97,7 @@ const SelectShips = ({
           />
           {!canStartGame && (
             <button
-              className="mx-auto mt-7 block rounded bg-rose-900 px-2 py-1 font-medium text-white lg:mx-0 lg:mt-10"
+              className="mx-auto mt-7 block rounded bg-rose-900 px-2 py-1 font-medium text-white lg:absolute lg:bottom-8 lg:mx-0 lg:mt-0"
               onClick={() =>
                 setOrientation((orientation) => {
                   if (orientation === 'horizontal') {
@@ -118,7 +118,7 @@ const SelectShips = ({
       <button
         onClick={startGame}
         disabled={!canStartGame}
-        className="mt-10 block w-full cursor-pointer rounded-lg border-2 border-rose-700 py-2 text-xl font-medium transition-colors duration-200 hover:bg-rose-700 hover:text-white disabled:pointer-events-none disabled:opacity-50"
+        className="mt-10 block w-full cursor-pointer rounded-lg border-2 border-rose-900 py-2 text-xl font-medium transition-colors duration-200 hover:bg-rose-900 hover:text-white disabled:pointer-events-none disabled:opacity-50"
       >
         Start Game
       </button>

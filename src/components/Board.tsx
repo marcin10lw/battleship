@@ -11,11 +11,15 @@ type BoardProps = {
 const Board = ({ squares, onClick, owner, isGameBoard, points }: BoardProps) => {
   return (
     <div>
-      <h2 className="mb-1 text-center text-2xl font-medium uppercase text-zinc-700">
-        {isGameBoard && points && `${owner}: ${points[owner]}`}
-      </h2>
+      {isGameBoard && points && (
+        <h2 className="mb-2 text-center text-2xl font-medium uppercase text-zinc-300">
+          <span>
+            {owner}: <span className="font-bold text-white">{points[owner]}</span>
+          </span>
+        </h2>
+      )}
 
-      <div className="grid grid-rows-[repeat(10,_35px)] border border-solid border-gray-500 lg:grid-rows-[repeat(10,_40px)]">
+      <div className="grid w-fit grid-rows-[repeat(10,_35px)] border border-solid border-gray-400 lg:grid-rows-[repeat(10,_40px)]">
         {squares.map((row, rowIndex) => (
           <div
             key={rowIndex}
@@ -41,7 +45,7 @@ const Board = ({ squares, onClick, owner, isGameBoard, points }: BoardProps) => 
               return (
                 <div
                   onClick={onClick ? () => onClick(rowIndex, colIndex) : undefined}
-                  className={`cursor-pointer border border-gray-500 ${
+                  className={`cursor-pointer border border-gray-400 ${
                     owner === 'player' ? squareStyle : square === 'ship' ? '' : squareStyle
                   }`}
                   key={colIndex}

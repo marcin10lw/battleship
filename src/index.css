@@ -14,7 +14,8 @@ html {
 
 body {
   font-family: 'Roboto', sans-serif;
-  /* background: no-repeat center / cover url('./assets/images/battleship.jpg'); */
+  background-color: #070707;
+  color: white;
 }
 
 svg {
