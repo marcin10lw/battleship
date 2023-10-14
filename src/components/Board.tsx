@@ -26,27 +26,22 @@ const Board = ({ squares, onClick, owner, isGameBoard, points }: BoardProps) => 
             className="grid grid-cols-[repeat(10,_35px)] lg:grid-cols-[repeat(10,_40px)]"
           >
             {row.map((square, colIndex) => {
-              let squareStyle: `bg-${Square}`;
-
-              switch (square) {
-                case 'empty':
-                  squareStyle = 'bg-empty';
-                  break;
-                case 'ship':
-                  squareStyle = 'bg-ship';
-                  break;
-                case 'hit':
-                  squareStyle = 'bg-hit';
-                  break;
-                case 'miss':
-                  squareStyle = 'bg-miss';
-              }
+              const squareStyles = {
+                empty: 'bg-empty',
+                ship: 'bg-ship',
+                hit: 'bg-hit',
+                miss: 'bg-miss',
+              };
 
               return (
                 <div
                   onClick={onClick ? () => onClick(rowIndex, colIndex) : undefined}
                   className={`cursor-pointer border border-gray-400 ${
-                    owner === 'player' ? squareStyle : square === 'ship' ? '' : squareStyle
+                    owner === 'player'
+                      ? squareStyles[square]
+                      : square === 'ship'
+                      ? ''
+                      : squareStyles[square]
                   }`}
                   key={colIndex}
                 />
